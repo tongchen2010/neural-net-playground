@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neural Net Playground — backprop from scratch, in your browser</title>
+  <meta name="description" content="Train a small neural network from scratch in your browser and watch the decision boundary form as it learns. No ML library — forward pass, backprop and SGD hand-written in JS." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='%236ea8fe'/><path d='M16 1a15 15 0 000 30z' fill='%238b7cff'/></svg>" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">◓</span>
+        <div>
+          <h1>Neural Net Playground</h1>
+          <p class="tagline">Train a neural network <strong>from scratch</strong> in your browser — watch the decision boundary form as it learns. Backprop hand-written in JS, <em>no ML library</em>.</p>
+        </div>
+      </div>
+      <a class="ghlink" id="repo-link" href="#" target="_blank" rel="noopener">&lt;/&gt; Source</a>
+    </header>
+
+    <section class="controls">
+      <div class="ctrl"><label for="dataset">Dataset</label>
+        <select id="dataset">
+          <option value="circle">Circle</option>
+          <option value="xor">XOR</option>
+          <option value="moons">Two Moons</option>
+          <option value="spiral">Spiral</option>
+          <option value="gauss">Gaussian (linear)</option>
+        </select>
+      </div>
+      <div class="ctrl"><label for="arch">Hidden layers</label>
+        <select id="arch">
+          <option value="">none (linear)</option>
+          <option value="4">1 × 4</option>
+          <option value="8">1 × 8</option>
+          <option value="8,8" selected>2 × 8</option>
+          <option value="16,8">16 → 8</option>
+        </select>
+      </div>
+      <div class="ctrl"><label for="act">Activation</label>
+        <select id="act">
+          <option value="tanh" selected>tanh</option>
+          <option value="relu">ReLU</option>
+          <option value="sigmoid">sigmoid</option>
+        </select>
+      </div>
+      <div class="ctrl"><label for="lr">Learning rate: <span id="lr-val">0.8</span></label>
+        <input type="range" id="lr" min="0.1" max="2" step="0.1" value="0.8" />
+      </div>
+      <div class="btns">
+        <button id="play-btn" class="primary">▶ Train</button>
+        <button id="step-btn" class="ghost">Step</button>
+        <button id="reset-btn" class="ghost">Reset</button>
+      </div>
+    </section>
+
+    <main class="stage">
+      <div class="canvas-wrap">
+        <canvas id="board" width="380" height="380"></canvas>
+        <div class="legend">
+          <span><i class="dot c1"></i> class 1</span>
+          <span><i class="dot c0"></i> class 0</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="stat"><span class="stat-k">Epoch</span><span class="stat-v" id="epoch">0</span></div>
+        <div class="stat"><span class="stat-k">Train loss</span><span class="stat-v" id="loss">—</span></div>
+        <div class="stat"><span class="stat-k">Train accuracy</span><span class="stat-v" id="acc">—</span></div>
+        <div class="loss-box">
+          <span class="stat-k">Loss curve</span>
+          <canvas id="loss-curve" width="240" height="80"></canvas>
+        </div>
+        <p class="note">Each pixel is colored by the network's prediction; dots are the training data. Everything — forward pass, backpropagation, SGD — runs in <code>app.js</code> with no dependencies.</p>
+      </div>
+    </main>
+
+    <footer class="pagefoot">
+      <span>Inspired by the TensorFlow Playground — but the network here is implemented by hand, end to end.</span>
+    </footer>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
